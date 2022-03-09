@@ -78,6 +78,18 @@ class Matrix:
         
         return o
 
+# dot product of [a, b, c] and [d, e, f] is (a*d + b*e + c*f)
+def dot_product(left: list[int], right: list[int]):
+    """Calculates the dot product of two integer lists."""
+
+    if len(left) != len(right):
+        raise ValueError("Length of two lists must be equal for dot product.")
+
+    sum = 0
+    for i in range(len(left)):
+        sum += left[i] * right[i]
+    return sum
+
 if __name__ == "__main__":
     m = Matrix([
         [1, 0, 0],
