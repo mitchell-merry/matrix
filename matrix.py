@@ -130,6 +130,16 @@ def dot_product(left: list[int], right: list[int]):
         sum += left[i] * right[i]
     return sum
 
+def addLists(left: list[int], right: list[int]) -> list[int]:
+    """Adds two lists.
+    
+    Addition of [a, b, c] and [i, j, k] is [a+i, b+j, c+k]."""
+
+    if len(left) != len(right):
+        raise ValueError("Length of two lists must be equal for addition.")
+
+    return [ left[i] + right[i] for i in range(len(left)) ]
+
 def multiplyList(arr: list[int], k: int):
     return [ k*value for value in arr ]
 
