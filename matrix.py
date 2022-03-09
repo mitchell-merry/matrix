@@ -130,8 +130,11 @@ class Matrix:
         return o
 
 # dot product of [a, b, c] and [d, e, f] is (a*d + b*e + c*f)
-def dot_product(left: list[int], right: list[int]):
-    """Calculates the dot product of two integer lists."""
+def dot_product(left: list[int], right: list[int]) -> int:
+    """Calculates the dot product of two integer lists.
+    
+    Dot product of [a, b, c] and [i, j, k] is a*i + b*j + c*k.
+    """
 
     if len(left) != len(right):
         raise ValueError("Length of two lists must be equal for dot product.")
@@ -144,7 +147,8 @@ def dot_product(left: list[int], right: list[int]):
 def addLists(left: list[int], right: list[int]) -> list[int]:
     """Adds two lists.
     
-    Addition of [a, b, c] and [i, j, k] is [a+i, b+j, c+k]."""
+    Addition of [a, b, c] and [i, j, k] is [a+i, b+j, c+k].
+    """
 
     if len(left) != len(right):
         raise ValueError("Length of two lists must be equal for addition.")
