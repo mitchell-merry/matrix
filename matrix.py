@@ -138,17 +138,21 @@ class Matrix:
 
         return newM
 
-    def toRowEchelon(self) -> Matrix:
+    def toRowEchelon(self, maxCol=-1) -> Matrix:
         """Uses Gaussian Elimination to reduce the matrix to row echelon form.
         
         Returns a new matrix.
+
+        maxCol: the maximum column to reduce to row-echelon form with. All columns get transformed with a row, but columns past maxCol won't be affected. Inclusive.
         """
+
+        if maxCol == -1: maxCol = len(self[0])-1
 
         newM = self.copy()
         row = 0
         col = 0
 
-        while row < len(newM) and col < len(newM[0]):
+        while row < len(newM) and col < len(newM[0]) and col <= maxCol:
             # Step 1: Locate the leftmost column that does not consist entirely of zeroes
             c = newM.getCol(col)
             nonzero = -1
@@ -397,12 +401,15 @@ def multiplyList(arr: list[float], k: float):
     return [ k*value for value in arr ]
 
 if __name__ == "__main__":
-    A = Matrix([
-        [1, 2, 3],
-        [-2, 1, 4],
-        [-3, -4, 1]
+    m = Matrix([
+        [1, -2, -1, -2, -2],
+        [2, 2, 1, 5, 11],
+        [3, -2, 1, 2, 12]
     ])
 
-    print(A.isSkewSymmetric())
-    
-    pass
+    # m = Matrix([
+    #     [5, 2, 1],
+    #     [2, 1, 0]
+    # ])
+
+    print(m.toRowEchelon(2))
