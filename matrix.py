@@ -67,6 +67,17 @@ class Matrix:
 
         return newM
 
+    def addMultipleOfRow(self, rowI, rowJ, k):
+        """Add k times rowJ to rowI.
+        
+        Ri = Ri + k*Rj
+        """
+
+        newM = self.copy()
+        newM[rowI] = addLists(self[rowI], multiplyList(self[rowJ], k))
+
+        return newM
+
     def getCol(self, i: int) -> list[int]:
         """Returns a column of the matrix as a list of numbers."""
 
@@ -155,4 +166,4 @@ if __name__ == "__main__":
         [7, 0, 5]
     ])
 
-    print(m.multiplyRow(2, 5))
+    print(m.addMultipleOfRow(0, 1, 3))
