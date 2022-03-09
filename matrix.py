@@ -1,11 +1,19 @@
 class Matrix:
     def __init__(self, default):
+        # Matrix must be a double array where rows and cols are > 0
         if not isinstance(default, list) or len(default) == 0 or not isinstance(default[0], list) or len(default[0]) == 0:
             raise ValueError("Invalid matrix!")
 
         self.matrix = default
     
     def append(self, other):
+        """Appends one matrix onto the right of another.
+
+        Rows must match in size. Does not modify the original matrix in-place.
+
+        Returns a new matrix.
+        """
+
         if len(self.matrix) != len(other.matrix):
             raise ValueError("Matrices must have the same number of rows!")
 
@@ -14,10 +22,7 @@ class Matrix:
         ])
     
     def print(self):
-        """Prints the matrix.
-    
-        :returns: void
-        """
+        """Prints the matrix."""
 
         for row in self.matrix:
             print("[", end="")
