@@ -37,6 +37,11 @@ class Matrix:
         """Swaps two rows. Returns a new matrix. Alias of Matrix#interchange()."""
         return self.interchange(rowI, rowJ)
 
+    def getCol(self, i: int) -> list[int]:
+        """Returns a column of the matrix as a list of numbers."""
+
+        return [ row[i] for row in self.matrix ]
+
     def copyRow(self, row: list[int]) -> list[int]:
         return [ x for x in row ]
 
