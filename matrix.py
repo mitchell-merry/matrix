@@ -53,13 +53,25 @@ class Matrix:
         return copy
 
     def print(self):
-        """Prints the matrix."""
+        """Prints the matrix & returns it."""
+
+        print(self)
+        return self
+        
+
+    # Overloading.
+    def __add__(self, other: Matrix): return self.append(other)
+    
+    def __str__(self):
+        o = ""
 
         for row in self.matrix:
-            print("[", end="")
+            o += "["
             for cell in row:
-                print(f" {cell} ", end="")
-            print("]")
+                o += f" {cell} "
+            o += "]\n"
+        
+        return o
 
 if __name__ == "__main__":
     m = Matrix([
@@ -73,4 +85,4 @@ if __name__ == "__main__":
     ])
 
 
-    m.append(m2).append(m2).swap(1, 2).interchange(0, 2).print()
+    (m + m2).print().append(m2).print().swap(1, 2).interchange(0, 2)
