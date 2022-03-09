@@ -59,6 +59,14 @@ class Matrix:
         """Swaps two rows. Returns a new matrix. Alias of Matrix#interchange()."""
         return self.interchange(rowI, rowJ)
 
+    def multiplyRow(self, rowI: int, k: int) -> Matrix:
+        """Multiply row by constant k."""
+
+        newM = self.copy()
+        newM[rowI] = [ k*value for value in newM[rowI] ]
+
+        return newM
+
     def getCol(self, i: int) -> list[int]:
         """Returns a column of the matrix as a list of numbers."""
 
@@ -134,4 +142,4 @@ if __name__ == "__main__":
         [7, 0, 5]
     ])
 
-    print(m * m2)
+    print(m.multiplyRow(2, 5))
