@@ -42,7 +42,7 @@ class Matrix:
     
         for row in range(n):
             for col in range(k):
-                result[row][col] = dot_product(self[row], other.getCol(col))
+                result[row][col] = dotProduct(self[row], other.getCol(col))
 
         return Matrix(result)
 
