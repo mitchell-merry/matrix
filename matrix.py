@@ -20,7 +20,20 @@ class Matrix:
         return Matrix([
             [ x for x in self.matrix[row] ] + [ x for x in other.matrix[row] ] for row, _ in enumerate(self.matrix)
         ])
-    
+
+    def interchange(self, rowI, rowJ):
+        """Swaps two rows. Returns a new matrix."""
+
+        newM = self.copy()
+        newM.matrix[rowI] = [ x for x in self.matrix[rowJ] ]
+        newM.matrix[rowJ] = [ x for x in self.matrix[rowI] ]
+
+        return newM
+
+    def swap(self, rowI, rowJ): 
+        """Swaps two rows. Returns a new matrix. Alias of Matrix#interchange()."""
+        return self.interchange(rowI, rowJ)
+
     def copy(self):
         """Returns a deep copy of the matrix."""
         
@@ -51,4 +64,4 @@ if __name__ == "__main__":
     ])
 
 
-    m.append(m2).append(m2).print()
+    m.append(m2).append(m2).swap(1, 2).interchange(0, 2).print()
