@@ -99,6 +99,49 @@ class Matrix:
 
         return newM
 
+    def toRowEchelon(self) -> Matrix:
+        """Uses Gaussian Elimination to reduce the matrix to row echelon form.
+        
+        Returns a new matrix.
+        """
+
+        newM = self.copy()
+        row = 0
+        col = 0
+
+        while row < len(newM) and col < len(newM[0]):
+            # Step 1: Locate the leftmost column that does not consist entirely of zeroes
+            c = newM.getCol(col)
+            nonzero = -1
+
+            for i, cell in enumerate(c):
+                if cell != 0:
+                    nonzero = i
+                    break
+            
+            # if it's all zeroes, go to the next column
+            if nonzero == -1:
+                col += 1
+                continue
+
+            # Step 2: Interchange the top row with another, if necessary, to bring a nonzero entry to the top of the column found in Step 1.
+            if nonzero != 0:
+                newM = newM.interchange(row, nonzero)
+
+            # Step 3: If the entry that is now at the top of the column in step is a, multiply the first row by 1/a in order to introduce a leading 1.
+            newM = newM.multiplyRow(row, 1 / newM[row][col])
+
+            # Step 4: Add suitable multiples of the top row to the rows below so that all entries below the leading 1 become zeroes
+            for i in range(row+1, len(self)):
+                k = -newM[i][col] / newM[row][col]
+                newM = newM.addMultipleOfRow(i, row, k)
+
+            # Step 5: Now cover the top row in the matrix and begin again with Step 1 applied to the submatrix that remains. 
+            row += 1
+            col += 1 # advance column since we already worked with the current column - we know it's all zeroes for the rows we're checking on the next iteration
+
+        return newM
+
     def getCol(self, i: int) -> list[float]:
         """Returns a column of the matrix as a list of numbers."""
 
@@ -184,15 +227,15 @@ def multiplyList(arr: list[float], k: float):
     return [ k*value for value in arr ]
 
 if __name__ == "__main__":
+    # m = Matrix([
+    #     [1, -2, -1],
+    #     [2, 2, 1],
+    #     [3, -2, 1]
+    # ])
+
     m = Matrix([
-        [0, -3],
-        [1, 2],
-        [9, 4]
+        [5, 2, 1],
+        [2, 1, 0]
     ])
 
-    m2 = Matrix([
-        [5, -3, 2],
-        [7, 0, 5]
-    ])
-
-    print((m * m2).modulo(4))
+    print(m.toRowEchelon())
