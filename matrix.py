@@ -136,8 +136,7 @@ class Matrix:
         
         return o
 
-# dot product of [a, b, c] and [d, e, f] is (a*d + b*e + c*f)
-def dot_product(left: list[int], right: list[int]) -> int:
+def dotProduct(left: list[int], right: list[int]) -> int:
     """Calculates the dot product of two integer lists.
     
     Dot product of [a, b, c] and [i, j, k] is a*i + b*j + c*k.
@@ -167,7 +166,7 @@ def multiplyList(arr: list[int], k: int):
     
     Multiplication of [1, 2, 3] by 4 is [4, 8, 12].
     """
-    
+
     return [ k*value for value in arr ]
 
 if __name__ == "__main__":
