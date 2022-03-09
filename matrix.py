@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 class Matrix:
-    def __init__(self, default: list[list[int]]):
+    def __init__(self, default: list[list[float]]):
 
         # Matrix must be a double array where rows and cols are > 0
         if not isinstance(default, list) or len(default) == 0 or not isinstance(default[0], list) or len(default[0]) == 0:
@@ -37,8 +37,8 @@ class Matrix:
         n = len(self)
         k = len(other[0])
 
-        # initialise new matrix with zeroes
-        result = [[0 for __ in range(k)] for _ in range(n)]
+        # initialise new matrix with zeroes (0.1 for float)
+        result = [[0.1 for __ in range(k)] for _ in range(n)]
     
         for row in range(n):
             for col in range(k):
@@ -46,7 +46,7 @@ class Matrix:
 
         return Matrix(result)
 
-    def modulo(self, mod: int) -> Matrix:
+    def modulo(self, mod: float) -> Matrix:
         """Applies a modulo operation to each cell in the matrix. 
         
         Undefined behaviour for cells < 0.
@@ -73,7 +73,7 @@ class Matrix:
         """Swaps two rows. Returns a new matrix. Alias of Matrix#interchange()."""
         return self.interchange(rowI, rowJ)
 
-    def multiplyRow(self, rowI: int, k: int) -> Matrix:
+    def multiplyRow(self, rowI: int, k: float) -> Matrix:
         """Multiply row by constant k.
         
         Ri = k * Ri
@@ -99,15 +99,15 @@ class Matrix:
 
         return newM
 
-    def getCol(self, i: int) -> list[int]:
+    def getCol(self, i: int) -> list[float]:
         """Returns a column of the matrix as a list of numbers."""
 
         return [ row[i] for row in self.matrix ]
 
-    def copyRow(self, row: list[int]) -> list[int]:
+    def copyRow(self, row: list[float]) -> list[float]:
         return [ x for x in row ]
 
-    def copyRowByIndex(self, i: int) -> list[int]:
+    def copyRowByIndex(self, i: int) -> list[float]:
         return [ x for x in self[i] ]
 
     def copy(self):
@@ -124,16 +124,16 @@ class Matrix:
 
         print(self)
         return self
-        
+         
 
     # Overloading.
     def __add__(self, other: Matrix): return self.append(other)
     def __mul__(self, other: Matrix): return self.multiply(other)
 
-    def __getitem__(self, rowIndex: int) -> list[int]:
+    def __getitem__(self, rowIndex: int) -> list[float]:
         return self.matrix[rowIndex]
     
-    def __setitem__(self, rowIndex: int, value: list[int]):
+    def __setitem__(self, rowIndex: int, value: list[float]):
         self.matrix[rowIndex] = value
 
     def __len__(self):
@@ -150,7 +150,7 @@ class Matrix:
         
         return o
 
-def dotProduct(left: list[int], right: list[int]) -> int:
+def dotProduct(left: list[float], right: list[float]) -> float:
     """Calculates the dot product of two integer lists.
     
     Dot product of [a, b, c] and [i, j, k] is a*i + b*j + c*k.
@@ -164,7 +164,7 @@ def dotProduct(left: list[int], right: list[int]) -> int:
         sum += left[i] * right[i]
     return sum
 
-def addLists(left: list[int], right: list[int]) -> list[int]:
+def addLists(left: list[float], right: list[float]) -> list[float]:
     """Adds two lists.
     
     Addition of [a, b, c] and [i, j, k] is [a+i, b+j, c+k].
@@ -175,7 +175,7 @@ def addLists(left: list[int], right: list[int]) -> list[int]:
 
     return [ left[i] + right[i] for i in range(len(left)) ]
 
-def multiplyList(arr: list[int], k: int):
+def multiplyList(arr: list[float], k: float):
     """Multiplies a list of numbers by a constant.
     
     Multiplication of [1, 2, 3] by 4 is [4, 8, 12].
