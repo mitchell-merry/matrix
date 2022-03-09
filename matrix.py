@@ -18,9 +18,18 @@ class Matrix:
             raise ValueError("Matrices must have the same number of rows!")
 
         return Matrix([
-            self.matrix[row] + other.matrix[row] for row, _ in enumerate(self.matrix)
+            [ x for x in self.matrix[row] ] + [ x for x in other.matrix[row] ] for row, _ in enumerate(self.matrix)
         ])
     
+    def copy(self):
+        """Returns a deep copy of the matrix."""
+        
+        copy = Matrix([
+            [ x for x in row ] for row in self.matrix
+        ])
+
+        return copy
+
     def print(self):
         """Prints the matrix."""
 
