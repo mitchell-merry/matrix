@@ -63,7 +63,7 @@ class Matrix:
         """Multiply row by constant k."""
 
         newM = self.copy()
-        newM[rowI] = [ k*value for value in newM[rowI] ]
+        newM[rowI] = multiplyList(newM[rowI], k)
 
         return newM
 
@@ -129,6 +129,9 @@ def dot_product(left: list[int], right: list[int]):
     for i in range(len(left)):
         sum += left[i] * right[i]
     return sum
+
+def multiplyList(arr: list[int], k: int):
+    return [ k*value for value in arr ]
 
 if __name__ == "__main__":
     m = Matrix([
