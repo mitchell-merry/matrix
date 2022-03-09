@@ -23,6 +23,28 @@ class Matrix:
         return Matrix([
             self.copyRowByIndex(row) + other.copyRowByIndex(row) for row, _ in enumerate(self.matrix)
         ])
+    
+    def multiply(self, other: Matrix) -> Matrix:
+        """Multiplies two matrices.
+        
+        Returns a new matrix.
+        Note that the number of columns on the left matrix must equal the number of rows on the right matrix.
+        """
+
+        if len(self.matrix[0]) != len(other.matrix):
+            raise ValueError("The number of columns on the left matrix must equal the number of rows on the right matrix.")
+
+        n = len(self.matrix)
+        k = len(other.matrix[0])
+
+        # initialise new matrix with zeroes
+        result = [[0 for __ in range(k)] for _ in range(n)]
+    
+        for row in range(n):
+            for col in range(k):
+                result[row][col] = dot_product(self.matrix[row], other.getCol(col))
+
+        return Matrix(result)
 
     def interchange(self, rowI: int, rowJ: int) -> Matrix:
         """Swaps two rows. Returns a new matrix."""
@@ -66,7 +88,8 @@ class Matrix:
 
     # Overloading.
     def __add__(self, other: Matrix): return self.append(other)
-    
+    def __mul__(self, other: Matrix): return self.multiply(other)
+
     def __str__(self):
         o = ""
 
@@ -92,14 +115,14 @@ def dot_product(left: list[int], right: list[int]):
 
 if __name__ == "__main__":
     m = Matrix([
-        [1, 0, 0],
-        [0, 1, 0],
-        [0, 0, 1]
+        [0, -3],
+        [1, 2],
+        [9, 4]
     ])
 
     m2 = Matrix([
-        [1], [2], [3]
+        [5, -3, 2],
+        [7, 0, 5]
     ])
 
-
-    (m + m2).print().append(m2).print().swap(1, 2).interchange(0, 2)
+    print(m * m2)
