@@ -46,7 +46,7 @@ class Matrix:
 
         return Matrix(result)
 
-    def modulo(self, mod) -> Matrix:
+    def modulo(self, mod: int) -> Matrix:
         """Applies a modulo operation to each cell in the matrix. 
         
         Undefined behaviour for cells < 0.
