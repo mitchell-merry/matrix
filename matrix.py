@@ -163,6 +163,11 @@ def addLists(left: list[int], right: list[int]) -> list[int]:
     return [ left[i] + right[i] for i in range(len(left)) ]
 
 def multiplyList(arr: list[int], k: int):
+    """Multiplies a list of numbers by a constant.
+    
+    Multiplication of [1, 2, 3] by 4 is [4, 8, 12].
+    """
+    
     return [ k*value for value in arr ]
 
 if __name__ == "__main__":
