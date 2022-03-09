@@ -46,6 +46,20 @@ class Matrix:
 
         return Matrix(result)
 
+    def modulo(self, mod) -> Matrix:
+        """Applies a modulo operation to each cell in the matrix. 
+        
+        Undefined behaviour for cells < 0.
+        Returns a new matrix.
+        """
+
+        newM = self.copy()
+        for y in range(len(newM)):
+            for x in range(len(newM[y])):
+                newM[y][x] %= mod
+        return newM
+        
+
     def interchange(self, rowI: int, rowJ: int) -> Matrix:
         """Swaps two rows. Returns a new matrix."""
 
@@ -181,4 +195,4 @@ if __name__ == "__main__":
         [7, 0, 5]
     ])
 
-    print(m.addMultipleOfRow(0, 1, 3))
+    print((m * m2).modulo(4))
