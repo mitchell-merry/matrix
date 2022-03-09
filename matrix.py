@@ -60,7 +60,12 @@ class Matrix:
         return self.interchange(rowI, rowJ)
 
     def multiplyRow(self, rowI: int, k: int) -> Matrix:
-        """Multiply row by constant k."""
+        """Multiply row by constant k.
+        
+        Ri = k * Ri
+
+        Returns a new matrix.
+        """
 
         newM = self.copy()
         newM[rowI] = multiplyList(newM[rowI], k)
@@ -71,6 +76,8 @@ class Matrix:
         """Add k times rowJ to rowI.
         
         Ri = Ri + k*Rj
+
+        Returns a new matrix.
         """
 
         newM = self.copy()
