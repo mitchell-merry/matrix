@@ -17,7 +17,7 @@ class Matrix:
         Returns a new matrix.
         """
 
-        if len(self.matrix) != len(other.matrix):
+        if len(self) != len(other):
             raise ValueError("Matrices must have the same number of rows!")
 
         return Matrix([
@@ -31,18 +31,18 @@ class Matrix:
         Note that the number of columns on the left matrix must equal the number of rows on the right matrix.
         """
 
-        if len(self.matrix[0]) != len(other.matrix):
+        if len(self[0]) != len(other):
             raise ValueError("The number of columns on the left matrix must equal the number of rows on the right matrix.")
 
-        n = len(self.matrix)
-        k = len(other.matrix[0])
+        n = len(self)
+        k = len(other[0])
 
         # initialise new matrix with zeroes
         result = [[0 for __ in range(k)] for _ in range(n)]
     
         for row in range(n):
             for col in range(k):
-                result[row][col] = dot_product(self.matrix[row], other.getCol(col))
+                result[row][col] = dot_product(self[row], other.getCol(col))
 
         return Matrix(result)
 
@@ -50,8 +50,8 @@ class Matrix:
         """Swaps two rows. Returns a new matrix."""
 
         newM = self.copy()
-        newM.matrix[rowI] = self.copyRowByIndex(rowJ)
-        newM.matrix[rowJ] = self.copyRowByIndex(rowI)
+        newM[rowI] = self.copyRowByIndex(rowJ)
+        newM[rowJ] = self.copyRowByIndex(rowI)
         
         return newM
 
@@ -68,7 +68,7 @@ class Matrix:
         return [ x for x in row ]
 
     def copyRowByIndex(self, i: int) -> list[int]:
-        return [ x for x in self.matrix[i] ]
+        return [ x for x in self[i] ]
 
     def copy(self):
         """Returns a deep copy of the matrix."""
@@ -89,6 +89,15 @@ class Matrix:
     # Overloading.
     def __add__(self, other: Matrix): return self.append(other)
     def __mul__(self, other: Matrix): return self.multiply(other)
+
+    def __getitem__(self, rowIndex: int) -> list[int]:
+        return self.matrix[rowIndex]
+    
+    def __setitem__(self, rowIndex: int, value: list[int]):
+        self.matrix[rowIndex] = value
+
+    def __len__(self):
+        return len(self.matrix)
 
     def __str__(self):
         o = ""
