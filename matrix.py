@@ -63,7 +63,7 @@ class Matrix:
         """
 
         if len(self[0]) != len(other):
-            raise ValueError("The number of columns on the left matrix must equal the number of rows on the right matrix.")
+            raise ValueError(f"The number of columns on the left matrix must equal the number of rows on the right matrix. Left columns: {len(self[0])}, Right rows: {len(other)}")
 
         n = len(self)
         k = len(other[0])
@@ -319,9 +319,14 @@ if __name__ == "__main__":
     B = Matrix([
         [3, 0],
         [-1, 2],
-        [1, 1]
+        [1, 1],
+        [-1, 2]
     ])
     
     D = Matrix([[1, 2, 3, 4]])
     
-    print(D.transpose())
+    print(A.transpose().transpose() == A)
+    print((A + B).transpose() == A.transpose() + B.transpose())
+    print((A - B).transpose() == A.transpose() - B.transpose())
+    print((A * 3).transpose() == A.transpose() * 3)
+    print((A * B).transpose() == B.transpose() * A.transpose())
