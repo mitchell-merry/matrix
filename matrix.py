@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Tuple
+from typing import Tuple, Union
 
 class Matrix:
     def __init__(self, default: list[list[float]]):
@@ -10,6 +10,23 @@ class Matrix:
 
         self.matrix = default
     
+    def add(self, other: Matrix) -> Matrix:
+        if not self.sameSizeAs(other):
+            raise ValueError(f"Matrices must be the same size to add. Left: {self.getSize()}, Right: {other.getSize()}")
+        
+        return Matrix([ 
+            [ 
+                self[rowIndex][colIndex] + other[rowIndex][colIndex] 
+                for colIndex, cell in enumerate(row)
+            ] 
+            for rowIndex, row in enumerate(self.copy().matrix) 
+        ])
+
+    def scalarMultiply(self, k: float | int) -> Matrix:
+        return Matrix([
+            [ cell*k for cell in row ] for row in self.matrix
+        ])
+
     def append(self, other: Matrix) -> Matrix:
         """Appends one matrix onto the right of another.
 
@@ -25,7 +42,7 @@ class Matrix:
             self.copyRowByIndex(row) + other.copyRowByIndex(row) for row, _ in enumerate(self.matrix)
         ])
     
-    def multiply(self, other: Matrix) -> Matrix:
+    def multiplyByMatrix(self, other: Matrix) -> Matrix:
         """Multiplies two matrices.
         
         Returns a new matrix.
@@ -180,8 +197,27 @@ class Matrix:
          
 
     # Overloading.
-    def __add__(self, other: Matrix): return self.append(other)
-    def __mul__(self, other: Matrix): return self.multiply(other)
+    def __add__(self, other: Matrix) -> Matrix: 
+        return self.add(other)
+    
+    def __sub__(self, other: Matrix) -> Matrix:
+        return self + -other
+
+    def __mul__(self, other: Matrix | float | int) -> Matrix: 
+        if isinstance(other, float) or isinstance(other, int):
+            return self.scalarMultiply(other)
+        elif isinstance(other, Matrix):
+            return self.multiplyByMatrix(other)
+
+        raise TypeError(f"Invalid matrix multiplication operand: {type(other)}")
+    
+    def __truediv__(self, other: float) -> Matrix:
+        return self * (1 / other)
+    
+    def __pos__(self) -> Matrix: return self
+
+    def __neg__(self) -> Matrix:
+        return self * -1
 
     def __getitem__(self, rowIndex: int) -> list[float]:
         return self.matrix[rowIndex]
@@ -237,10 +273,23 @@ def multiplyList(arr: list[float], k: float):
     return [ k*value for value in arr ]
 
 if __name__ == "__main__":
-    m = Matrix([
-        [1, 0, -3, -2],
-        [3, 1, -2, 5],
-        [2, 2, 1, 4]
+    A = Matrix([
+        [1, -2, -1, -1],
+        [3, 0, 6, 11]
     ])
 
-    print(m.getSize())
+    print(A * 3)
+    print(-A)
+
+    A = Matrix([
+        [-2, 3],
+        [1, 1]
+    ])
+
+    B = Matrix([
+        [4, -1],
+        [2, 2]
+    ])
+
+    print(B * 3 - A / 2)
+    print(A * 0)
