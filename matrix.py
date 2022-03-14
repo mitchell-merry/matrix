@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import Tuple, Union
+import math
 
 class Matrix:
     def __init__(self, default: list[list[float]]):
@@ -166,6 +167,16 @@ class Matrix:
 
         return selfRows == otherRows and selfCols == otherCols
 
+    def isEqualTo(self, other: Matrix) -> bool:
+        if not self.sameSizeAs(other): return False
+
+        for rowI, row in enumerate(self.matrix):
+            for colI, col in enumerate(row):
+                if not math.isclose(self[rowI][colI], other[rowI][colI]):
+                    return False
+
+        return True
+
     def getCol(self, i: int) -> list[float]:
         """Returns a column of the matrix as a list of numbers."""
 
@@ -218,6 +229,8 @@ class Matrix:
 
     def __neg__(self) -> Matrix:
         return self * -1
+
+    def __eq__(self, other) -> bool: return self.isEqualTo(other)
 
     def __getitem__(self, rowIndex: int) -> list[float]:
         return self.matrix[rowIndex]
@@ -274,14 +287,6 @@ def multiplyList(arr: list[float], k: float):
 
 if __name__ == "__main__":
     A = Matrix([
-        [1, -2, -1, -1],
-        [3, 0, 6, 11]
-    ])
-
-    print(A * 3)
-    print(-A)
-
-    A = Matrix([
         [-2, 3],
         [1, 1]
     ])
@@ -290,6 +295,13 @@ if __name__ == "__main__":
         [4, -1],
         [2, 2]
     ])
+    
+    C = Matrix([
+        [-2.00000000001, 3],
+        [1, 1]
+    ])
 
-    print(B * 3 - A / 2)
-    print(A * 0)
+    print(A == A)
+    print(A == B)
+    print(A == C)
+    print(A * 2 == A + A)
