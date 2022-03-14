@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Tuple
 
 class Matrix:
     def __init__(self, default: list[list[float]]):
@@ -142,10 +143,19 @@ class Matrix:
 
         return newM
 
+    def sameSizeAs(self, other: Matrix) -> bool:
+        selfRows, selfCols = self.getSize()
+        otherRows, otherCols = other.getSize()
+
+        return selfRows == otherRows and selfCols == otherCols
+
     def getCol(self, i: int) -> list[float]:
         """Returns a column of the matrix as a list of numbers."""
 
         return [ row[i] for row in self.matrix ]
+
+    def getSize(self) -> Tuple[int, int]:
+        return len(self), len(self[0])
 
     def copyRow(self, row: list[float]) -> list[float]:
         return [ x for x in row ]
@@ -227,15 +237,10 @@ def multiplyList(arr: list[float], k: float):
     return [ k*value for value in arr ]
 
 if __name__ == "__main__":
-    # m = Matrix([
-    #     [1, -2, -1],
-    #     [2, 2, 1],
-    #     [3, -2, 1]
-    # ])
-
     m = Matrix([
-        [5, 2, 1],
-        [2, 1, 0]
+        [1, 0, -3, -2],
+        [3, 1, -2, 5],
+        [2, 2, 1, 4]
     ])
 
-    print(m.toRowEchelon())
+    print(m.getSize())
