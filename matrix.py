@@ -13,17 +13,25 @@ class Matrix:
 
     @classmethod
     def zero(cls, rows, cols):
+        """Instantiates new Matrix filled with zeroes of size rows x cols."""
+
         return Matrix([
             [0 for c in range(cols)] for r in range(rows)
         ])
     
     @classmethod
     def identity(cls, size):
+        """Instantiates a new identity matrix with the given size.
+        
+        I_size.
+        """
         return Matrix([
             [ 1 if r == c else 0 for c in range(size) ] for r in range(size)
         ])
 
     def add(self, other: Matrix) -> Matrix:
+        """Sums two matrices cell-wise. That is, return a matrix where each cell (C)ij is equal to (A)ij + (B)ij."""
+
         if not self.sameSizeAs(other):
             raise ValueError(f"Matrices must be the same size to add. Left: {self.getSize()}, Right: {other.getSize()}")
         
@@ -36,6 +44,7 @@ class Matrix:
         ])
 
     def scalarMultiply(self, k: float | int) -> Matrix:
+        """Multiplies the matrix by a constant, where each cell (B)ij = (A)ij * k."""
         return Matrix([
             [ cell*k for cell in row ] for row in self.matrix
         ])
@@ -90,7 +99,6 @@ class Matrix:
                 newM[y][x] %= mod
         return newM
         
-
     def interchange(self, rowI: int, rowJ: int) -> Matrix:
         """Swaps two rows. Returns a new matrix."""
 
@@ -174,6 +182,7 @@ class Matrix:
         return newM
 
     def transpose(self) -> Matrix:
+        """Transposes the matrix. That is, (B)ji = (A)ij. Or, B = A^T."""
         rows, cols = self.getSize()
         res = Matrix.zero(cols, rows)
 
@@ -183,14 +192,20 @@ class Matrix:
 
         return res
 
-
     def sameSizeAs(self, other: Matrix) -> bool:
+        """Returns true if the given matrix has an equal number of rows and columns as the matrix."""
+
         selfRows, selfCols = self.getSize()
         otherRows, otherCols = other.getSize()
 
         return selfRows == otherRows and selfCols == otherCols
 
     def isEqualTo(self, other: Matrix) -> bool:
+        """Returns true if the two matrices are equivalent.
+        
+        That is, they have the same number of rows and columns, and each element is close to the corresponding element in the other matrix. Comparison of elements is done with math.iscloseto, to account for floating point bugs.
+        """
+
         if not self.sameSizeAs(other): return False
 
         for rowI, row in enumerate(self.matrix):
@@ -206,12 +221,15 @@ class Matrix:
         return [ row[i] for row in self.matrix ]
 
     def getSize(self) -> Tuple[int, int]:
+        """Returns a tuple defining the size of the matrix in the form [rows, cols]."""
         return len(self), len(self[0])
 
     def copyRow(self, row: list[float]) -> list[float]:
+        """Returns a copy of the given row in the matrix."""
         return [ x for x in row ]
 
     def copyRowByIndex(self, i: int) -> list[float]:
+        """Returns a copy of the given row in the matrix, by index."""
         return [ x for x in self[i] ]
 
     def copy(self):
