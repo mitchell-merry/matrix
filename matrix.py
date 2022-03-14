@@ -10,7 +10,19 @@ class Matrix:
             raise ValueError("Invalid matrix!")
 
         self.matrix = default
+
+    @classmethod
+    def zero(cls, rows, cols):
+        return Matrix([
+            [0 for c in range(cols)] for r in range(rows)
+        ])
     
+    @classmethod
+    def identity(cls, size):
+        return Matrix([
+            [ 1 if r == c else 0 for c in range(size) ] for r in range(size)
+        ])
+
     def add(self, other: Matrix) -> Matrix:
         if not self.sameSizeAs(other):
             raise ValueError(f"Matrices must be the same size to add. Left: {self.getSize()}, Right: {other.getSize()}")
@@ -161,6 +173,17 @@ class Matrix:
 
         return newM
 
+    def transpose(self) -> Matrix:
+        rows, cols = self.getSize()
+        res = Matrix.zero(cols, rows)
+
+        for rowI, row in enumerate(self.matrix):
+            for colI, col in enumerate(row):
+                res[colI][rowI] = self[rowI][colI]
+
+        return res
+
+
     def sameSizeAs(self, other: Matrix) -> bool:
         selfRows, selfCols = self.getSize()
         otherRows, otherCols = other.getSize()
@@ -288,20 +311,17 @@ def multiplyList(arr: list[float], k: float):
 if __name__ == "__main__":
     A = Matrix([
         [-2, 3],
-        [1, 1]
-    ])
-
-    B = Matrix([
+        [1, 1],
         [4, -1],
         [2, 2]
     ])
-    
-    C = Matrix([
-        [-2.00000000001, 3],
+
+    B = Matrix([
+        [3, 0],
+        [-1, 2],
         [1, 1]
     ])
-
-    print(A == A)
-    print(A == B)
-    print(A == C)
-    print(A * 2 == A + A)
+    
+    D = Matrix([[1, 2, 3, 4]])
+    
+    print(D.transpose())
