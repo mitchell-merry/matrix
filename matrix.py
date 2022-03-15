@@ -192,6 +192,22 @@ class Matrix:
 
         return res
 
+    def isInverse(self, other: Matrix) -> bool:
+        """Returns true if the matrices are inverses of each other."""
+        
+        return (
+            self.isSquare() and 
+            self.sameSizeAs(other) and
+            self * other == Matrix.identity(len(self)) and
+            other * self == Matrix.identity(len(self))
+        )
+
+    def isSquare(self) -> bool:
+        """Returns true if the matrix is a square, defined as having an equal number of rows and columns. That is, it's size can be defined as n x n."""
+        rows, cols = self.getSize()
+
+        return rows == cols
+
     def sameSizeAs(self, other: Matrix) -> bool:
         """Returns true if the given matrix has an equal number of rows and columns as the matrix."""
 
