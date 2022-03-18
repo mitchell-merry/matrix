@@ -78,13 +78,13 @@ class Matrix:
         k = len(other[0])
 
         # initialise new matrix with zeroes (0.1 for float)
-        result = [[0.1 for __ in range(k)] for _ in range(n)]
+        result = Matrix.zero(n, k)
     
         for row in range(n):
             for col in range(k):
                 result[row][col] = dotProduct(self[row], other.getCol(col))
 
-        return Matrix(result)
+        return result
 
     def modulo(self, mod: float) -> Matrix:
         """Applies a modulo operation to each cell in the matrix. 
@@ -194,7 +194,7 @@ class Matrix:
 
     def isInverse(self, other: Matrix) -> bool:
         """Returns true if the matrices are inverses of each other."""
-        
+
         return (
             self.isSquare() and 
             self.sameSizeAs(other) and
@@ -202,11 +202,57 @@ class Matrix:
             other * self == Matrix.identity(len(self))
         )
 
+    def inverseOf2by2(self) -> Matrix:
+        """Finds the inverse of a 2x2 matrix using the simple formula."""
+
+        if not self.isSquare() or not self.getSize()[0] == 2:
+            raise ValueError(f"Matrix must be 2x2! Size: {self.getSize()}")
+        
+        a = self[0][0]
+        b = self[0][1]
+        c = self[1][0]
+        d = self[1][1]
+
+        k = 1 / (a*d-b*c)
+
+        newM = Matrix([
+            [d, -b],
+            [-c, a]
+        ]) * k
+
+        return newM
+
     def isSquare(self) -> bool:
         """Returns true if the matrix is a square, defined as having an equal number of rows and columns. That is, it's size can be defined as n x n."""
         rows, cols = self.getSize()
 
         return rows == cols
+    
+    def isSymmetric(self) -> bool:
+        if not self.isSquare(): 
+            raise ValueError(f"Matrix must be square. Size: {self.getSize()}")
+
+        rows, cols = self.getSize()
+
+        for row in range(rows):
+            for col in range(row+1, cols):
+                if self[row][col] != self[col][row]:
+                    return False
+        
+        return True
+
+    def isSkewSymmetric(self) -> bool:
+        if not self.isSquare(): 
+            raise ValueError(f"Matrix must be square. Size: {self.getSize()}")
+
+        rows, cols = self.getSize()
+
+        for row in range(rows):
+            for col in range(row+1, cols):
+                if self[row][col] != -self[col][row]:
+                    return False
+        
+        return True
 
     def sameSizeAs(self, other: Matrix) -> bool:
         """Returns true if the given matrix has an equal number of rows and columns as the matrix."""
@@ -344,23 +390,11 @@ def multiplyList(arr: list[float], k: float):
 
 if __name__ == "__main__":
     A = Matrix([
-        [-2, 3],
-        [1, 1],
-        [4, -1],
-        [2, 2]
+        [1, 2, 3],
+        [-2, 1, 4],
+        [-3, -4, 1]
     ])
 
-    B = Matrix([
-        [3, 0],
-        [-1, 2],
-        [1, 1],
-        [-1, 2]
-    ])
+    print(A.isSkewSymmetric())
     
-    D = Matrix([[1, 2, 3, 4]])
-    
-    print(A.transpose().transpose() == A)
-    print((A + B).transpose() == A.transpose() + B.transpose())
-    print((A - B).transpose() == A.transpose() - B.transpose())
-    print((A * 3).transpose() == A.transpose() * 3)
-    print((A * B).transpose() == B.transpose() * A.transpose())
+    pass
