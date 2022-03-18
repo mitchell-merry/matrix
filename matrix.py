@@ -223,7 +223,7 @@ class Matrix:
         return newM
 
     def isDiagonalMatrix(self) -> bool:
-        for rowI, row in enumerate(self):
+        for rowI, row in enumerate(self.matrix):
             for colI, cell in enumerate(row):
                 if rowI != colI and cell != 0:
                     return False
