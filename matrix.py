@@ -222,6 +222,14 @@ class Matrix:
 
         return newM
 
+    def isDiagonalMatrix(self) -> bool:
+        for rowI, row in enumerate(self):
+            for colI, cell in enumerate(row):
+                if rowI != colI and cell != 0:
+                    return False
+
+        return True 
+
     def isSquare(self) -> bool:
         """Returns true if the matrix is a square, defined as having an equal number of rows and columns. That is, it's size can be defined as n x n."""
         rows, cols = self.getSize()
