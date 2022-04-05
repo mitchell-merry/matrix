@@ -185,8 +185,39 @@ class Matrix:
 
         return newM
 
+    def toReducedRowEchelon(self, maxCol = -1) -> Matrix:
+        # NOTE: currently assumes valid input
+
+        newM = self.copy().toRowEchelon(maxCol)
+
+        # Step 6. Beginning with the last nonzero row and working upwards, add
+        # suitable multiples of each row to the rows above to introduce zeros
+        # above the leading 1’s.
+
+        row = len(newM)-1
+
+        while row >= 0:
+            # Get leading column
+            leading = -1
+            for col in range(len(newM[row])):
+                if newM[row][col] != 0:
+                    leading = col
+                    break
+
+            # All zeroes, move onto next row
+            if leading == -1:
+                row -= 1
+                continue
+
+            for i in range(row-1, -1, -1):
+                newM = newM.addMultipleOfRow(i, row, -newM[i][leading]/newM[row][leading])
+
+            row -= 1
+
+        return newM
+
     def transpose(self) -> Matrix:
-        """Transposes the matrix. That is, (B)ji = (A)ij. Or, B = A^T."""
+        """Transposes the matrix. That is, it returns B where (B)ji = (A)ij. Or, B = A^T."""
         rows, cols = self.getSize()
         res = Matrix.zero(cols, rows)
 
@@ -402,14 +433,9 @@ def multiplyList(arr: list[float], k: float):
 
 if __name__ == "__main__":
     m = Matrix([
-        [1, -2, -1, -2, -2],
-        [2, 2, 1, 5, 11],
-        [3, -2, 1, 2, 12]
+        [1, -1, 1, 2],
+        [3, 1, 0, -1],
+        [2, 1, 1, 0]
     ])
 
-    # m = Matrix([
-    #     [5, 2, 1],
-    #     [2, 1, 0]
-    # ])
-
-    print(m.toRowEchelon(2))
+    print(m.toReducedRowEchelon(2))
