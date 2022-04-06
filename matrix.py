@@ -190,6 +190,9 @@ class Matrix:
 
         newM = self.copy().toRowEchelon(maxCol)
 
+        if maxCol == -1:
+            maxCol = len(newM[0])-1
+
         # Step 6. Beginning with the last nonzero row and working upwards, add
         # suitable multiples of each row to the rows above to introduce zeros
         # above the leading 1’s.
@@ -199,7 +202,7 @@ class Matrix:
         while row >= 0:
             # Get leading column
             leading = -1
-            for col in range(len(newM[row])):
+            for col in range(maxCol+1):
                 if newM[row][col] != 0:
                     leading = col
                     break
