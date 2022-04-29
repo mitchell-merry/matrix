@@ -260,6 +260,39 @@ class Matrix:
 
         return newM
 
+    def exceptRow(self, rowIndex: int) -> Matrix:
+        """Returns the given matrix except the specified row index."""
+
+        res = self.copy()
+        del res.matrix[rowIndex]
+
+        return res
+    
+    def exceptColumn(self, colIndex: int) -> Matrix:
+        """Returns the given matrix except the specified row index."""
+
+        res = self.copy()
+        for i in range(len(self)):
+            del res[i][colIndex]
+
+        return res
+    
+    def determinant(self) -> float:
+        """Finds the determinant of the matrix, if the matrix is square."""
+
+        if not self.isSquare():
+            raise ValueError(f"Matrix must be a square! Size: {self.getSize()}")
+
+        if self.getSize()[0] == 1: return self[0][0]
+
+        result = 0
+        size = len(self)
+        
+        for i in range(size):
+            result += (-1 if i%2 else 1) * self[0][i] * self.exceptRow(0).exceptColumn(i).determinant()
+
+        return result
+
     def isDiagonalMatrix(self) -> bool:
         for rowI, row in enumerate(self.matrix):
             for colI, cell in enumerate(row):
@@ -436,9 +469,9 @@ def multiplyList(arr: list[float], k: float):
 
 if __name__ == "__main__":
     m = Matrix([
-        [1, -1, 1, 2],
-        [3, 1, 0, -1],
-        [2, 1, 1, 0]
+        [4, -1, 2],
+        [7, 2, -3],
+        [3, 6, 5]
     ])
 
-    print(m.toReducedRowEchelon(2))
+    print(m.determinant())
