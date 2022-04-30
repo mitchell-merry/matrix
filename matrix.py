@@ -158,6 +158,9 @@ class Matrix:
             nonzero = -1
 
             for i, cell in enumerate(c):
+                if i < row:
+                    continue
+                
                 if cell != 0:
                     nonzero = i
                     break
@@ -171,13 +174,18 @@ class Matrix:
             if nonzero != 0:
                 newM = newM.interchange(row, nonzero)
 
+            print("1", nonzero, row, col, newM)
+
             # Step 3: If the entry that is now at the top of the column in step is a, multiply the first row by 1/a in order to introduce a leading 1.
             newM = newM.multiplyRow(row, 1 / newM[row][col])
+
+            print("2", row, col, newM)
 
             # Step 4: Add suitable multiples of the top row to the rows below so that all entries below the leading 1 become zeroes
             for i in range(row+1, len(self)):
                 k = -newM[i][col] / newM[row][col]
                 newM = newM.addMultipleOfRow(i, row, k)
+                print("3", i, row, col, newM)
 
             # Step 5: Now cover the top row in the matrix and begin again with Step 1 applied to the submatrix that remains. 
             row += 1
@@ -469,9 +477,10 @@ def multiplyList(arr: list[float], k: float):
 
 if __name__ == "__main__":
     m = Matrix([
-        [4, -1, 2],
-        [7, 2, -3],
-        [3, 6, 5]
+        [2, 7, -2, 2],
+        [4, 14, -4, 4],
+        [-3, -6, 1, -2],
+        [-6, -3, -2, -2]
     ])
 
-    print(m.determinant())
+    print(m.toReducedRowEchelon())
