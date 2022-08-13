@@ -1,0 +1,2 @@
+# :)
+number = float | int
