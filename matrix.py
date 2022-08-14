@@ -1,10 +1,11 @@
 from __future__ import annotations
-from vector import Vector
-from number import number
 from typing import Tuple
 
+from vector import Vector
+from number import number
+
 class Matrix:
-	def __init__(self, default: list[list[number] | Vector]):
+	def __init__(self, default: list[list[number]] | list[Vector]):
 		self.matrix: list[Vector] = [x if isinstance(x, Vector) else Vector(x) for x in default]
 
 	@classmethod
@@ -233,6 +234,9 @@ class Matrix:
 			self.getCol(col) for col in range(cols)
 		])
 
+	@property
+	def T(self) -> Matrix: return self.transpose()
+
 	def isInverse(self, other: Matrix) -> bool:
 		"""Returns true if the matrices are inverses of each other."""
 
@@ -333,6 +337,9 @@ class Matrix:
 			raise ValueError(f"Matrix must not have a determinant of zero (i.e. be invertible).")
 
 		return self.adjoint() / det
+
+	@property
+	def inv(self): return self.inverse()
 
 	def isDiagonalMatrix(self) -> bool:
 		for rowI, row in enumerate(self.matrix):

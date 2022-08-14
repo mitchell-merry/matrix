@@ -1,21 +1,21 @@
 from matrix import Matrix
 from vector import Vector
+from linear_reg import LinearRegression
 
-DATA_COUNT = 300
-t = Vector([4, 3])
+DATA_COUNT = 50
+t = Vector([4, 3, 6])
 
 def randData():
 	return Vector.randint(len(t)-1, 3).prepend([1])
 
-X = Matrix([randData() for _ in range(DATA_COUNT)])
-print(X)
+X = [randData() for _ in range(DATA_COUNT)]
+y = Vector([ x.dot(t) for x in X ]) + Vector.randfloat(DATA_COUNT, 1) - 0.5
 
-y_hat = Matrix.fromVector(Vector([ x.dot(t) for x in X ]) + Vector.randfloat(DATA_COUNT, 1) - 0.5)
-print(y_hat)
+lg = LinearRegression(X, y)
 
-theta_best = ((X.transpose() * X).inverse() * X.transpose() * y_hat).toVector()
-print(theta_best)
+print(lg.weights())
 
-newX = randData()
-y_predicted = newX.dot(theta_best)
-print(newX, y_predicted)
+data = Vector([2, 3])
+print("Data:", data)
+print("Actual:", data.prepend([1]).dot(t))
+print("Predicted: ", lg.predict([2, 3]))
